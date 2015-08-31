@@ -15,7 +15,7 @@ fis 解决方案
 
 内容：
 
-* [解决方案背景介绍](./intro.md)
+* [什么是解决方案？](./intro.md)
 * [解决方案规范定义](./spec.md)
 
 **如果有任何问题或建议，请提交 [issues](https://github.com/fex-team/fis3-solutions/issues/new)**

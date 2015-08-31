@@ -8,21 +8,26 @@ FIS3 解决方案规范定义
 1. 统一现有解决方案，减少迁移学习成本。
 2. 给解决方案开发者提供参考。
 
-解决方案规范主要针对语法糖扩展和线下调试功能有要求。
+解决方案规范主要针对语法糖扩展和线下调试功能。
 
 ## 语法糖扩展
 
 为了不占用原有 html 标签，在解决方案中需要至少扩展 load、uri、script、style、widget、framework 和 placeholder 标签。
 
-语法格式可以因模板引擎不同而不同。以下语法规则仅供参考，但是标签名称应当保持一直。
+语法格式因模板引擎不同允许差异，但标签名称应当保持一直。
 
-* `@load('静态资源ID'[, 'js' | 'css'])` 用来加载某一静态资源，通过 `静态资源ID` 指定。当该资源被加载的同时，所有其依赖的资源也应当被加载。
+* `@load('静态资源ID')` 用来加载某一静态资源，通过 `静态资源ID` 指定。当该资源被加载的同时，所有其依赖的资源也应当被加载。
 
   ```
   @load('static/libs/lib.js')
   @load('static/scss/global.scss')
   ```
-* `@uri` 用来获取某一资源的最终产出路径。
+* `@load('远程地址'[, 'js' | 'css'])` 用来加载远程 js 或者 css。默认根据资源后缀判断资源类型，如果目标资源无后缀，应当通过第二个参数指定资源类型。
+
+  ```
+  @load('//code.jquery.com/jquery-1.11.3.min.js');
+  ```
+* `@uri('静态资源ID')` 用来获取某一资源的最终产出路径。
   
   ```
   <div data-image="@uri('common:static/img/bg.png')"></div>
@@ -31,13 +36,13 @@ FIS3 解决方案规范定义
 
   ```
   <p>xxxx</p>
-  @style()
+  @script()
   var $ = require('/widget/jquery/jquery.js');
 
   $(function() {
     alert('Ready');
   });
-  @endstyle
+  @endscript
   ```
 * `@style() css content @endstyle`  与`html` 中 `<style></style>` 语法类似, 主要区别在于，通过此语法加载的 `css`, 会被收集到队列中，无论在模板什么位置使用，最终都会被合并在页面头部统一输出，自动性能优化。
 

@@ -1,15 +1,35 @@
-什么是 fis 解决方案？
+fis 解决方案
 =================================
 
-fis 解决方案是一个基于 fis 编译工具，结合特定后端和特定模板引擎，包含静态资源管理、模块化开发、组件化开发、目录规范以、子系统拆分以及线下调试等一系列有助于提高前端开发效率的各种方案和模块集合。
+目前基于 fis 的解决方案越来越多，包括：
 
-在开始之前先推荐阅读下云龙大神分享的[前端工程基础篇](https://github.com/fouber/blog/issues/10)。
+* 基于 php 和 smarty 的 [fis-plus](http://oak.baidu.com/fis-plus).
+* 基于 java 和 velocity / jsp 的 [jello](http://oak.baidu.com/jello).
+* 基于 node 和 [swig](https://www.npmjs.com/package/swig) 的 [yog2](https://github.com/fex-team/yog2)
+* [纯 php 版本的解决方案](https://github.com/fex-team/fis3-demo/tree/master/backend-resource-manage/use-php)
+* [基于 php 和 laravel blade 的解决方案](https://github.com/fis-scaffold/laravel)
+* 等等...
 
-## 静态资源管理
+为了让大家更好的理解 fis 解决方案，该文档将对其定义和实现思路做必要的说明。
+
+<!-- 关于文档中一些不明白的术语，请参考云龙大神分享的[前端工程--基础篇](https://github.com/fouber/blog/issues/10) -->
+
+fis 解决方案是一个基于 fis 编译工具，结合特定后端和特定模板引擎，集成模块化开发、组件化开发、静态资源管理、目录规范、子系统拆分以及线下调试等功能为一体的解决方案集合。
+
+
 
 ## 模块化开发
 
+模块化开发包括 JS 模块化和 CSS 模块化。
+
+### JS 模块化
+
+
+### CSS 模块化
+
 ## 组件化开发
+
+## 静态资源管理
 
 ## 目录规范
 
