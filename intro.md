@@ -18,10 +18,10 @@ fis 解决方案是一个基于 fis 编译工具，结合特定后端和特定�
 
 ## 模块化开发
 
-模块化开发包括 JS 模块化和 CSS 模块化。
+模块化开发是工程化中有效的分治手段之一，包含 JS 模块化和 CSS 模块化两部分。
 
 ### JS 模块化
-
+Js 模块化是指遵循 [CommonJs](http://wiki.commonjs.org/wiki/Modules/1.1) 或者 [AMD](https://github.com/amdjs/amdjs-api/blob/master/AMD.md) 模块规范，将复杂的 Js 拆分成多个小模块。
 
 ### CSS 模块化
 
