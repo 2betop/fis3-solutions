@@ -21,7 +21,74 @@ fis 解决方案是一个基于 fis 编译工具，结合特定后端和特定�
 模块化开发是复杂应用开发中有效的分治手段之一，通过模块化，可以将复杂的功能模块，根据职责划分拆成多个小模块，一来提高代码的可维护性，二来提高代码的复用性。fis 模块化包含 JS 模块化和 CSS 模块化两部分。
 
 ### JS 模块化
-Js 模块化是指遵循 [CommonJs](http://wiki.commonjs.org/wiki/Modules/1.1) 或者 [AMD](https://github.com/amdjs/amdjs-api/blob/master/AMD.md) 模块化规范，将复杂的 Js 拆分成多个小模块，模块与模块之间通过 `require` 语句来关联。
+JS 模块化是指遵循 [CommonJs](http://wiki.commonjs.org/wiki/Modules/1.1) 或者 [AMD](https://github.com/amdjs/amdjs-api/blob/master/AMD.md) 模块化规范，将复杂的 JS 逻辑拆分成多个小模块，模块与模块之间通过 `require` 语句来关联。
+
+大家都知道，按 [CommonJs](http://wiki.commonjs.org/wiki/Modules/1.1) 规范编写的 js 是不能直接在浏览器里面运行，在 fis 中之所以能运行，是因为借助了[mod.js](https://github.com/fex-team/mod/blob/master/mod.js)、编译工具[fis3-hook-commonjs](https://github.com/fex-team/fis3-hook-commonjs)和资源加载器。
+
+以下将重点讲解 fis 中是如何支持 [CommonJs](http://wiki.commonjs.org/wiki/Modules/1.1) 模块化的。
+
+#### [mod.js](https://github.com/fex-team/mod/blob/master/mod.js)
+
+mod.js 模仿 amd 规范，实现了部分接口。
+
+* 模块定义
+
+  ```js
+  define(id, function(require, exports, module) {
+    // 通过 exports 或者 module.exports 控制本模块需要暴露的对象。
+  });
+  ```
+
+  通过指定 id 和回调函数来注册模块。此接口不直接使用，由编译工具自动生成。
+* 调用模块
+  
+  ```js
+  // 同步用法
+  // a 指向对应的模块中暴露的对象。
+  var a = require(id);
+
+  // 异步用法
+  require([id1, id2], function(mod1, mod2) {
+    // 当 模块 1 和 模块 2 异步加载完成后触发。
+    // mod1 和 mod2 变量分别指向模块中暴露的对象。
+  });
+
+  // require([id, id2], callback) 等价于 require.async([id, id2], callback)
+  ```
+* 配置模块
+  
+  ```js
+  require.resourcemap({
+    res: {
+      '模块Id': {
+        url: '请求地址',
+        pkg: '如果资源被打包了，记录打包资源编号',
+        deps: ['模块Id', '模块Id']
+      }
+    },
+    pkg: {
+      '打包资源编号': {
+        url: '请求地址'
+      }
+    }
+  });
+  ```
+
+  用来配置异步模块的信息，包括请求地址、依赖表和打包信息，当异步加载模块时， mod.js 会根据配置的信息请求资源。
+
+  主要用来满足 js 加 md5 戳和多个模块合并成一个 js 的需求。
+
+#### 编译工具 [fis3-hook-commonjs](https://github.com/fex-team/fis3-hook-commonjs)
+
+编译工具主要包括两部分工作。
+
+1. 分析 `require(id[, callback])`
+
+```js
+module.exports = function(a, b) {
+  return a + b;
+};
+```
 
 ### CSS 模块化
 
