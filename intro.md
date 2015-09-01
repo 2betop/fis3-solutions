@@ -76,19 +76,57 @@ mod.js 模仿 amd 规范，实现了以下接口。
 
   用来配置异步模块的信息，包括请求地址、依赖表和打包信息，当异步加载模块时， mod.js 会根据配置的信息请求资源。
 
-  主要用来满足 js 加 md5 戳和多个模块合并成一个 js 的需求。
+  主要用来满足 js 加 md5 戳和多个模块合并成一个 js 的需求。此接口也不直接调用，有资源加载器来自动生成。
 
 #### 编译工具 [fis3-hook-commonjs](https://github.com/fex-team/fis3-hook-commonjs)
 
-编译工具主要包括两部分工作。
+编译工具主要包括以下几个处理。
 
-1. 分析 `require(id[, callback])`
+1. **将文件路径转换成模块ID**
+  
+  ```js
+  // 编译前
+  require('./add.js'); 
 
-```js
-module.exports = function(a, b) {
-  return a + b;
-};
-```
+  // 编译后
+  require('widget/lib/add');
+  ```
+2. **分析依赖**
+
+  ```js
+  // 同步依赖
+  require(id);
+
+  // 异步用法
+  require.async([id1, id2], callback?)
+
+  // or require([id], callback?)
+  ```
+
+  分析项目中所有的 js 代码，将同步依赖和异步依赖，记录在静态资源表里面。对于采用后端资源加载的项目，需要产出到 map.json 文件中，交给后端程序。
+3. **包裹模块化 js**
+
+  对于标记 isMod 的 js, 自动用 define 包装，如：
+
+  编译前：
+
+  ```js
+  module.exports = function(a, b) {
+    return a + b;
+  };
+  ```
+
+  编译后： 
+
+
+  ```js
+  define('widget/lib/add', function() {
+    module.exports = function(a, b) {
+      return a + b;
+    };
+  });
+  ```
+
 
 ### CSS 模块化
 
