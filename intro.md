@@ -29,9 +29,9 @@ JS 模块化是指遵循 [CommonJs](http://wiki.commonjs.org/wiki/Modules/1.1) �
 
 #### [mod.js](https://github.com/fex-team/mod/blob/master/mod.js)
 
-mod.js 模仿 amd 规范，实现了部分接口。
+mod.js 模仿 amd 规范，实现了以下接口。
 
-* 模块定义
+* **模块定义**
 
   ```js
   define(id, function(require, exports, module) {
@@ -40,7 +40,7 @@ mod.js 模仿 amd 规范，实现了部分接口。
   ```
 
   通过指定 id 和回调函数来注册模块。此接口不直接使用，由编译工具自动生成。
-* 调用模块
+* **调用模块**
   
   ```js
   // 同步用法
@@ -55,7 +55,7 @@ mod.js 模仿 amd 规范，实现了部分接口。
 
   // require([id, id2], callback) 等价于 require.async([id, id2], callback)
   ```
-* 配置模块
+* **配置模块**
   
   ```js
   require.resourcemap({
